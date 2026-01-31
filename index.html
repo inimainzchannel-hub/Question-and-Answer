@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AskMe | Premium Anonymous Q&A</title>
+    <title>Inbox | AskMe Dashboard</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +46,6 @@
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
             position: relative;
         }
 
@@ -63,63 +62,25 @@
             z-index: 0;
         }
 
-        /* Floating Blobs */
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.2;
-            z-index: 0;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-primary);
-            top: 10%;
-            right: 10%;
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent-secondary);
-            bottom: 10%;
-            left: 10%;
-            animation-delay: 7s;
-        }
-
-        .blob-3 {
-            width: 200px;
-            height: 200px;
-            background: var(--success);
-            top: 60%;
-            right: 20%;
-            animation-delay: 14s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
         /* Container */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
             z-index: 1;
-            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -127,115 +88,158 @@
             }
         }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            display: inline-block;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+        .inbox-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        /* Card */
-        .card {
+        .inbox-badge {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .sidebar-card {
             background: var(--bg-glass);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-glass);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 2rem;
-            transition: var(--transition-slow);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        label {
-            display: block;
+        .sidebar-title {
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
             font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .input-wrapper {
+        /* Main Content */
+        .main-content {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 200px;
             position: relative;
         }
 
-        textarea, input {
+        .search-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.875rem 1rem 0.875rem 3rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-glass);
             border-radius: 12px;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: var(--transition);
-            resize: vertical;
-            min-height: 120px;
         }
 
-        textarea:focus, input:focus {
+        .search-input:focus {
             outline: none;
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
         }
 
-        textarea::placeholder, input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .char-counter {
+        .search-icon {
             position: absolute;
-            bottom: 0.75rem;
-            right: 1rem;
-            font-size: 0.875rem;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--text-muted);
         }
 
-        .char-counter.warning {
-            color: var(--warning);
-        }
-
-        .char-counter.danger {
-            color: var(--danger);
-        }
-
-        /* Mood Tags */
-        .mood-tags {
+        .filter-controls {
             display: flex;
-            flex-wrap: wrap;
             gap: 0.75rem;
-            margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
-        .mood-tag {
+        .filter-btn {
             padding: 0.5rem 1rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-glass);
@@ -247,16 +251,121 @@
             user-select: none;
         }
 
-        .mood-tag:hover {
+        .filter-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
         }
 
-        .mood-tag.selected {
+        .filter-btn.active {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
             border-color: transparent;
-            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        /* Questions List */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .question-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            animation: cardAppear 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(0, 217, 255, 0.3);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .question-mood {
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .question-text {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .question-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .question-alias {
+            font-weight: 500;
+            color: var(--accent-primary);
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 0.5rem;
         }
 
         /* Buttons */
@@ -265,28 +374,30 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
+            padding: 0.625rem 1.25rem;
             border: none;
-            border-radius: 12px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            border-radius: 8px;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
-            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
         }
 
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
         }
 
         .btn-secondary {
@@ -300,37 +411,131 @@
             transform: translateY(-2px);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
+        .btn-danger {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 71, 87, 0.3);
         }
 
-        .btn-loading .btn-text {
+        .btn-danger:hover {
+            background: rgba(255, 71, 87, 0.2);
+        }
+
+        .btn-success {
+            background: rgba(0, 255, 157, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-success:hover {
+            background: rgba(0, 255, 157, 0.2);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
             visibility: hidden;
+            transition: var(--transition-slow);
         }
 
-        .btn-loading::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .modal {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Action Buttons */
-        .action-buttons {
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            margin-bottom: 2rem;
+        }
+
+        .modal-actions {
             display: flex;
             gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         /* Toast */
@@ -361,63 +566,41 @@
             color: var(--success);
         }
 
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--success));
-            opacity: 0;
-            z-index: 1000;
-            pointer-events: none;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .inbox-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 1rem;
-        }
-
-        .inbox-link:hover {
-            text-decoration: underline;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
             }
             
-            .card {
-                padding: 1.5rem;
+            .header-top {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .action-buttons {
+            .controls {
                 flex-direction: column;
             }
             
-            .btn {
+            .search-bar {
                 width: 100%;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .question-actions {
+                justify-content: flex-start;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -426,16 +609,12 @@
                 padding: 1rem;
             }
             
-            .card {
-                padding: 1.25rem;
+            .question-card {
+                padding: 1rem;
             }
             
-            .mood-tags {
-                gap: 0.5rem;
-            }
-            
-            .mood-tag {
-                padding: 0.4rem 0.8rem;
+            .btn {
+                padding: 0.5rem 1rem;
                 font-size: 0.8rem;
             }
         }
@@ -447,10 +626,6 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            
-            .blob {
-                display: none;
-            }
         }
 
         /* Focus Styles */
@@ -461,110 +636,210 @@
     </style>
 </head>
 <body>
-    <!-- Floating Blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <!-- Modal for Clear All -->
+    <div class="modal-overlay" id="clearModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Clear All Questions</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete all questions? This action cannot be undone.</p>
+                <p style="margin-top: 1rem; color: var(--warning); font-weight: 500;">
+                    <span class="material-symbols-outlined" style="vertical-align: middle;">warning</span>
+                    All questions will be permanently removed.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelClear">Cancel</button>
+                <button class="btn btn-danger" id="confirmClear">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Inbox Key -->
+    <div class="modal-overlay" id="keyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Shareable Inbox Link</h3>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem;">Share this link to receive questions in this specific inbox:</p>
+                <div style="
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--border-glass);
+                    border-radius: 12px;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    word-break: break-all;
+                    font-family: monospace;
+                    font-size: 0.9rem;
+                " id="inboxKeyDisplay"></div>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">
+                    <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1rem;">info</span>
+                    Questions sent to this link will appear in this inbox only.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeKeyModal">Close</button>
+                <button class="btn btn-primary" id="copyKeyBtn">
+                    <span class="material-symbols-outlined">content_copy</span>
+                    Copy Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+              <span class="material-symbols-outlined toast-icon">check_circle</span>
+        <span id="toastMessage">Operation successful!</span>
+    </div>
 
     <!-- Main Container -->
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1 class="logo">AskMe</h1>
-            <p class="subtitle">Send anonymous questions with premium privacy. No accounts, no tracking, just honest conversations.</p>
+            <div class="header-top">
+                <div>
+                    <h1 class="logo">AskMe Inbox</h1>
+                    <p style="color: var(--text-muted); margin-top: 0.25rem;">Premium anonymous questions dashboard</p>
+                </div>
+                <div class="inbox-info">
+                    <div class="inbox-badge" id="questionCount">
+                        <span class="material-symbols-outlined">mail</span>
+                        <span id="totalCount">0</span> questions
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <!-- Main Form Card -->
-        <main class="card">
-            <form id="questionForm">
-                <!-- Question Input -->
-                <div class="form-group">
-                    <label for="question">Your Question</label>
-                    <div class="input-wrapper">
-                        <textarea 
-                            id="question" 
-                            placeholder="Ask anything... What's on your mind? 😊" 
-                            maxlength="300"
-                            required
-                        ></textarea>
-                        <div id="charCounter" class="char-counter">0/300</div>
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Controls -->
+                <div class="controls">
+                    <div class="search-bar">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search questions...">
+                    </div>
+                    <div class="filter-controls">
+                        <select class="sort-select" id="sortSelect">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                        <div class="filter-btn active" data-filter="all">All</div>
+                        <div class="filter-btn" data-filter="curious">Curious</div>
+                        <div class="filter-btn" data-filter="confess">Confess</div>
+                        <div class="filter-btn" data-filter="funny">Funny</div>
+                        <div class="filter-btn" data-filter="advice">Advice</div>
                     </div>
                 </div>
 
-                <!-- Alias Input -->
-                <div class="form-group">
-                    <label for="alias">
-                        Signature (Optional)
-                        <span style="color: var(--text-muted); font-weight: normal;">— Leave empty to stay anonymous</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="alias" 
-                        placeholder="Your alias or nickname"
-                        maxlength="30"
-                    >
+                <!-- Questions List -->
+                <div class="questions-list" id="questionsList">
+                    <!-- Questions will be loaded here -->
                 </div>
 
-                <!-- Mood Selection -->
-                <div class="form-group">
-                    <label>Mood</label>
-                    <div class="mood-tags" id="moodTags">
-                        <div class="mood-tag" data-mood="curious">🤔 Curious</div>
-                        <div class="mood-tag" data-mood="confess">😶 Confess</div>
-                        <div class="mood-tag" data-mood="funny">😂 Funny</div>
-                        <div class="mood-tag" data-mood="advice">💡 Advice</div>
-                        <div class="mood-tag selected" data-mood="random">🎲 Random</div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                        <span class="btn-text">
-                            <span class="material-symbols-outlined">send</span>
-                            Send Question
-                        </span>
-                    </button>
-                    
-                    <a href="inbox.html" class="btn btn-secondary" id="inboxBtn">
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-state-icon">
                         <span class="material-symbols-outlined">inbox</span>
-                        View Inbox
-                    </a>
-                    
-                    <button type="button" class="btn btn-secondary" id="copyLinkBtn" style="display: none;">
-                        <span class="material-symbols-outlined">link</span>
+                    </div>
+                    <h3 class="empty-state-title">No questions yet</h3>
+                    <p style="margin-bottom: 1.5rem;">Share your link to start receiving anonymous questions!</p>
+                    <button class="btn btn-primary" id="generateKeyBtn">
+                        <span class="material-symbols-outlined">share</span>
+                        Create Shareable Link
+                    </button>
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Stats Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span class="material-symbols-outlined">analytics</span>
+                        Statistics
+                    </h3>
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be loaded here -->
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-muted);">
+                        <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1rem;">shield</span>
+                        Data stored locally on this device
+                    </div>
+                </div>
+
+                <!-- Actions Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span class="material-symbols-outlined">tune</span>
+                        Actions
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <button class="btn btn-primary" id="askPageBtn">
+                            <span class="material-symbols-outlined">add</span>
+                            Ask a Question
+                        </button>
+                        <button class="btn btn-secondary" id="generateKeyBtnSidebar">
+                            <span class="material-symbols-outlined">link</span>
+                            Create Inbox Link
+                        </button>
+                        <button class="btn btn-success" id="downloadJsonBtn">
+                            <span class="material-symbols-outlined">download</span>
+                            Download JSON
+                        </button>
+                        <button class="btn btn-success" id="downloadCsvBtn">
+                            <span class="material-symbols-outlined">download</span>
+                            Download CSV
+                        </button>
+                        <button class="btn btn-success" id="downloadTxtBtn">
+                            <span class="material-symbols-outlined">download</span>
+                            Download TXT
+                        </button>
+                        <button class="btn btn-danger" id="clearAllBtn">
+                            <span class="material-symbols-outlined">delete</span>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current Inbox -->
+                <div class="sidebar-card" id="currentInboxCard" style="display: none;">
+                    <h3 class="sidebar-title">
+                        <span class="material-symbols-outlined">key</span>
+                        Current Inbox
+                    </h3>
+                    <div style="
+                        background: rgba(255, 255, 255, 0.03);
+                        border-radius: 12px;
+                        padding: 1rem;
+                        margin-bottom: 1rem;
+                        word-break: break-all;
+                        font-family: monospace;
+                        font-size: 0.85rem;
+                    ">
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem;">Inbox Key:</div>
+                        <div id="currentInboxKey"></div>
+                    </div>
+                    <button class="btn btn-secondary btn-icon" id="copyCurrentKeyBtn" style="width: 100%;">
+                        <span class="material-symbols-outlined">content_copy</span>
                         Copy Inbox Link
                     </button>
                 </div>
-            </form>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Your data stays on this device • No server storage • End-to-end private</p>
-            <a href="inbox.html" class="inbox-link">
-                <span class="material-symbols-outlined">arrow_forward</span>
-                Go to your inbox
-            </a>
-        </footer>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <span class="material-symbols-outlined toast-icon">check_circle</span>
-        <span id="toastMessage">Question sent successfully!</span>
+            </aside>
+        </div>
     </div>
 
     <script>
         // Utility Functions
         function escapeHTML(text) {
+            if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }
-
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
         function getQueryParam(key) {
@@ -584,240 +859,529 @@
             }, duration);
         }
 
-        // Confetti Animation
-        function createConfetti() {
-            const colors = ['#00d9ff', '#9d4edd', '#00ff9d', '#ffaa00'];
+        function generateInboxKey() {
+            return Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
             
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                
-                // Random properties
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const size = Math.random() * 10 + 5;
-                const left = Math.random() * 100;
-                const animationDuration = Math.random() * 3 + 2;
-                
-                confetti.style.cssText = `
-                    background: ${color};
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${left}vw;
-                    top: -20px;
-                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
-                    opacity: 0;
-                    animation: confettiFall ${animationDuration}s ease-out forwards;
-                `;
-                
-                document.body.appendChild(confetti);
-                
-                // Remove after animation
-                setTimeout(() => confetti.remove(), animationDuration * 1000);
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getMoodEmoji(mood) {
+            const emojis = {
+                curious: '🤔',
+                confess: '😶',
+                funny: '😂',
+                advice: '💡',
+                random: '🎲'
+            };
+            return emojis[mood] || '💭';
+        }
+
+        // Data Management
+        class InboxManager {
+            constructor() {
+                this.currentInboxKey = getQueryParam('key');
+                this.questions = [];
+                this.filteredQuestions = [];
+                this.currentFilter = 'all';
+                this.currentSort = 'newest';
+                this.searchTerm = '';
             }
             
-            // Add animation keyframes
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes confettiFall {
-                    0% {
-                        transform: translateY(0) rotate(0deg);
-                        opacity: 1;
+            loadQuestions() {
+                try {
+                    const stored = localStorage.getItem('anonymous_questions');
+                    this.questions = stored ? JSON.parse(stored) : [];
+                    
+                    // Filter by inbox key if specified
+                    if (this.currentInboxKey) {
+                        this.questions = this.questions.filter(q => q.key === this.currentInboxKey);
+                        // Show current inbox info
+                        document.getElementById('currentInboxCard').style.display = 'block';
+                        document.getElementById('currentInboxKey').textContent = this.currentInboxKey;
+                    } else {
+                        // Default inbox (null key)
+                        this.questions = this.questions.filter(q => q.key === null);
                     }
-                    100% {
-                        transform: translateY(100vh) rotate(${Math.random() * 360}deg);
-                        opacity: 0;
-                    }
+                    
+                    this.applyFilters();
+                    this.updateUI();
+                } catch (error) {
+                    console.error('Error loading questions:', error);
+                    this.questions = [];
                 }
-            `;
-            document.head.appendChild(style);
+            }
+            
+            applyFilters() {
+                this.filteredQuestions = [...this.questions];
+                
+                // Apply search filter
+                if (this.searchTerm) {
+                    const term = this.searchTerm.toLowerCase();
+                    this.filteredQuestions = this.filteredQuestions.filter(q => 
+                        q.question.toLowerCase().includes(term) ||
+                        (q.alias && q.alias.toLowerCase().includes(term))
+                    );
+                }
+                
+                // Apply mood filter
+                if (this.currentFilter !== 'all') {
+                    this.filteredQuestions = this.filteredQuestions.filter(
+                        q => q.moodTag === this.currentFilter
+                    );
+                }
+                
+                // Apply sort
+                this.filteredQuestions.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return this.currentSort === 'newest' ? 
+                        dateB - dateA : dateA - dateB;
+                });
+            }
+            
+            deleteQuestion(id) {
+                const stored = localStorage.getItem('anonymous_questions');
+                if (stored) {
+                    let allQuestions = JSON.parse(stored);
+                    allQuestions = allQuestions.filter(q => q.id !== id);
+                    localStorage.setItem('anonymous_questions', JSON.stringify(allQuestions));
+                    this.loadQuestions();
+                    showToast('Question deleted');
+                }
+            }
+            
+            clearAll() {
+                const stored = localStorage.getItem('anonymous_questions');
+                if (stored) {
+                    let allQuestions = JSON.parse(stored);
+                    
+                    if (this.currentInboxKey) {
+                        // Remove only questions with this key
+                        allQuestions = allQuestions.filter(q => q.key !== this.currentInboxKey);
+                    } else {
+                        // Remove only questions with null key (default inbox)
+                        allQuestions = allQuestions.filter(q => q.key !== null);
+                    }
+                    
+                    localStorage.setItem('anonymous_questions', JSON.stringify(allQuestions));
+                    this.loadQuestions();
+                    showToast('All questions cleared');
+                }
+            }
+            
+            getStats() {
+                const stats = {
+                    total: this.questions.length,
+                    filtered: this.filteredQuestions.length,
+                    moods: {}
+                };
+                
+                // Count moods
+                this.questions.forEach(q => {
+                    stats.moods[q.moodTag] = (stats.moods[q.moodTag] || 0) + 1;
+                });
+                
+                // Get top 3 moods
+                stats.topMoods = Object.entries(stats.moods)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 3)
+                    .map(([mood, count]) => ({ mood, count }));
+                
+                return stats;
+            }
+            
+            updateUI() {
+                const stats = this.getStats();
+                
+                // Update count
+                document.getElementById('totalCount').textContent = stats.total;
+                
+                // Update stats grid
+                const statsGrid = document.getElementById('statsGrid');
+                statsGrid.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.total}</div>
+                        <div class="stat-label">Total Questions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.filtered}</div>
+                        <div class="stat-label">Filtered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.topMoods[0]?.count || 0}</div>
+                        <div class="stat-label">${stats.topMoods[0]?.mood || 'No'} Mood</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.topMoods[1]?.count || 0}</div>
+                        <div class="stat-label">${stats.topMoods[1]?.mood || 'Data'}</div>
+                    </div>
+                `;
+                
+                // Update questions list
+                const questionsList = document.getElementById('questionsList');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (this.filteredQuestions.length === 0) {
+                    questionsList.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    
+                    // Update empty state message
+                    const emptyTitle = document.querySelector('.empty-state-title');
+                    const emptyText = document.querySelector('.empty-state p');
+                    
+                    if (this.searchTerm) {
+                        emptyTitle.textContent = 'No results found';
+                        emptyText.textContent = 'Try a different search term or clear filters.';
+                    } else if (this.currentFilter !== 'all') {
+                        emptyTitle.textContent = 'No questions with this mood';
+                        emptyText.textContent = 'Try selecting a different mood filter.';
+                    } else {
+                        emptyTitle.textContent = 'No questions yet';
+                        emptyText.textContent = 'Share your link to start receiving anonymous questions!';
+                    }
+                } else {
+                    emptyState.style.display = 'none';
+                    
+                    questionsList.innerHTML = this.filteredQuestions.map((q, index) => `
+                        <div class="question-card" data-id="${q.id}" style="animation-delay: ${index * 0.05}s">
+                            <div class="question-header">
+                                <div class="question-mood">
+                                    ${getMoodEmoji(q.moodTag)} ${q.moodTag.charAt(0).toUpperCase() + q.moodTag.slice(1)}
+                                </div>
+                                <div style="color: var(--text-muted); font-size: 0.875rem;">
+                                    ${formatDate(q.createdAt)}
+                                </div>
+                            </div>
+                            <div class="question-text">${q.question}</div>
+                            <div class="question-footer">
+                                <div class="question-meta">
+                                    ${q.alias ? `
+                                        <span class="question-alias">
+                                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">person</span>
+                                            ${q.alias}
+                                        </span>
+                                    ` : ''}
+                                    <span>
+                                        <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">devices</span>
+                                        ${q.userAgentHint}
+                                    </span>
+                                </div>
+                                <div class="question-actions">
+                                    <button class="btn btn-secondary btn-icon copy-question-btn" title="Copy question">
+                                        <span class="material-symbols-outlined">content_copy</span>
+                                    </button>
+                                    <button class="btn btn-danger btn-icon delete-question-btn" title="Delete">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    // Add event listeners to new buttons
+                    document.querySelectorAll('.copy-question-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const card = e.target.closest('.question-card');
+                            const id = card.dataset.id;
+                            const question = this.filteredQuestions.find(q => q.id === id);
+                            if (question) {
+                                navigator.clipboard.writeText(question.question).then(() => {
+                                    showToast('Question copied to clipboard');
+                                });
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-question-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const card = e.target.closest('.question-card');
+                            const id = card.dataset.id;
+                                                        this.deleteQuestion(id);
+                        });
+                    });
+                }
+            }
+            
+            // Download functions
+            downloadJSON() {
+                const data = {
+                    metadata: {
+                        exportedAt: new Date().toISOString(),
+                        totalQuestions: this.questions.length,
+                        inboxKey: this.currentInboxKey
+                    },
+                    questions: this.questions
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `askme-inbox-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('JSON file downloaded');
+            }
+            
+            downloadCSV() {
+                const headers = ['Date', 'Question', 'Alias', 'Mood', 'Device'];
+                const rows = this.questions.map(q => [
+                    new Date(q.createdAt).toLocaleString(),
+                    `"${q.question.replace(/"/g, '""')}"`,
+                    q.alias || 'Anonymous',
+                    q.moodTag,
+                    q.userAgentHint
+                ]);
+                
+                const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `askme-inbox-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('CSV file downloaded');
+            }
+            
+            downloadTXT() {
+                let text = `AskMe Inbox Export\n`;
+                text += `Generated: ${new Date().toLocaleString()}\n`;
+                text += `Total Questions: ${this.questions.length}\n`;
+                text += `Inbox Key: ${this.currentInboxKey || 'Default'}\n\n`;
+                text += '='.repeat(50) + '\n\n';
+                
+                this.questions.forEach((q, i) => {
+                    text += `Question ${i + 1}:\n`;
+                    text += `Date: ${new Date(q.createdAt).toLocaleString()}\n`;
+                    text += `From: ${q.alias || 'Anonymous'}\n`;
+                    text += `Mood: ${q.moodTag}\n`;
+                    text += `Device: ${q.userAgentHint}\n`;
+                    text += `Question:\n${q.question}\n\n`;
+                    text += '-'.repeat(30) + '\n\n';
+                });
+                
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `askme-inbox-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('Text file downloaded');
+            }
         }
 
-        // Character Counter
-        const questionInput = document.getElementById('question');
-        const charCounter = document.getElementById('charCounter');
+        // Initialize
+        const inbox = new InboxManager();
         
-        questionInput.addEventListener('input', function() {
-    const length = this.value.length;
-    charCounter.textContent = `${length}/300`;
-    
-    // Update color based on length
-    if (length > 250) {
-        charCounter.className = 'char-counter warning';
-    } else if (length >= 300) {
-        charCounter.className = 'char-counter danger';
-    } else {
-        charCounter.className = 'char-counter';
-    }
-});
-
-// Mood Tag Selection
-const moodTags = document.querySelectorAll('.mood-tag');
-let selectedMood = 'random';
-
-moodTags.forEach(tag => {
-    tag.addEventListener('click', function() {
-        // Remove selected class from all tags
-        moodTags.forEach(t => t.classList.remove('selected'));
-        // Add selected class to clicked tag
-        this.classList.add('selected');
-        selectedMood = this.dataset.mood;
-    });
-});
-
-// Spam Filter
-function containsSpam(text) {
-    // Block URLs
-    const urlRegex = /https?:\/\/\S+/gi;
-    if (urlRegex.test(text)) {
-        return 'Links are not allowed. Please remove URLs.';
-    }
-    
-    // Block too many emojis (>20)
-    const emojiRegex = /[\p{Emoji}]/gu;
-    const emojiCount = (text.match(emojiRegex) || []).length;
-    if (emojiCount > 20) {
-        return 'Too many emojis detected. Please limit to 20 emojis.';
-    }
-    
-    // Block common spam phrases
-    const spamPhrases = [
-        'buy now', 'click here', 'free money', 'make money',
-        'earn cash', 'work from home', 'get rich', 'investment'
-    ];
-    
-    const lowerText = text.toLowerCase();
-    for (const phrase of spamPhrases) {
-        if (lowerText.includes(phrase)) {
-            return 'Message contains suspicious content.';
-        }
-    }
-    
-    return null;
-}
-
-// Get simplified user agent
-function getUserAgentHint() {
-    const ua = navigator.userAgent;
-    if (ua.includes('Mobile')) return 'Mobile';
-    if (ua.includes('Tablet')) return 'Tablet';
-    return 'Desktop';
-}
-
-// Form Submission
-const form = document.getElementById('questionForm');
-const submitBtn = document.getElementById('submitBtn');
-const copyLinkBtn = document.getElementById('copyLinkBtn');
-const inboxKey = getQueryParam('key');
-
-// Show copy link button if key exists
-if (inboxKey) {
-    copyLinkBtn.style.display = 'inline-flex';
-    copyLinkBtn.addEventListener('click', function() {
-        const link = `${window.location.origin}${window.location.pathname}?key=${inboxKey}`;
-        navigator.clipboard.writeText(link).then(() => {
-            showToast('Inbox link copied to clipboard!');
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const clearModal = document.getElementById('clearModal');
+        const keyModal = document.getElementById('keyModal');
+        
+        // Event Listeners
+        searchInput.addEventListener('input', function() {
+            inbox.searchTerm = this.value.trim().toLowerCase();
+            inbox.applyFilters();
+            inbox.updateUI();
         });
-    });
-}
-
-form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const question = questionInput.value.trim();
-    const alias = document.getElementById('alias').value.trim();
-    
-    // Validation
-    if (!question) {
-        showToast('Please enter a question', 2000);
-        questionInput.focus();
-        return;
-    }
-    
-    if (question.length < 5) {
-        showToast('Question must be at least 5 characters', 2000);
-        questionInput.focus();
-        return;
-    }
-    
-    // Spam check
-    const spamError = containsSpam(question);
-    if (spamError) {
-        showToast(spamError, 3000);
-        return;
-    }
-    
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.classList.add('btn-loading');
-    
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    // Create question object
-    const questionObj = {
-        id: generateId(),
-        key: inboxKey || null,
-        question: escapeHTML(question),
-        alias: alias ? escapeHTML(alias) : null,
-        createdAt: new Date().toISOString(),
-        userAgentHint: getUserAgentHint(),
-        moodTag: selectedMood
-    };
-    
-    // Save to localStorage
-    try {
-        const existingQuestions = JSON.parse(localStorage.getItem('anonymous_questions') || '[]');
-        existingQuestions.push(questionObj);
-        localStorage.setItem('anonymous_questions', JSON.stringify(existingQuestions));
         
-        // Success animation
-        createConfetti();
-        showToast('Question sent successfully! 🎉');
+        sortSelect.addEventListener('change', function() {
+            inbox.currentSort = this.value;
+            inbox.applyFilters();
+            inbox.updateUI();
+        });
         
-        // Reset form
-        form.reset();
-        questionInput.dispatchEvent(new Event('input'));
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                inbox.currentFilter = this.dataset.filter;
+                inbox.applyFilters();
+                inbox.updateUI();
+            });
+        });
         
-        // Reset mood selection
-        moodTags.forEach(t => t.classList.remove('selected'));
-        document.querySelector('.mood-tag[data-mood="random"]').classList.add('selected');
-        selectedMood = 'random';
+        // Ask Page Button
+        document.getElementById('askPageBtn').addEventListener('click', function() {
+            if (inbox.currentInboxKey) {
+                window.location.href = `ask.html?key=${inbox.currentInboxKey}`;
+            } else {
+                window.location.href = 'ask.html';
+            }
+        });
         
-    } catch (error) {
-        showToast('Error saving question. Please try again.', 3000);
-        console.error('Storage error:', error);
-    }
-    
-    // Reset button state
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('btn-loading');
-});
-
-// Auto-focus textarea on page load
-window.addEventListener('load', () => {
-    questionInput.focus();
-});
-
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + Enter to submit
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        if (document.activeElement === questionInput) {
-            form.dispatchEvent(new Event('submit'));
+        // Generate Key Buttons
+        function showKeyModal() {
+            const key = generateInboxKey();
+            document.getElementById('inboxKeyDisplay').textContent = 
+                `${window.location.origin}/ask.html?key=${key}`;
+            
+            keyModal.classList.add('active');
+            
+            // Copy button
+            document.getElementById('copyKeyBtn').onclick = function() {
+                navigator.clipboard.writeText(`${window.location.origin}/ask.html?key=${key}`).then(() => {
+                    showToast('Link copied to clipboard!');
+                });
+            };
         }
-    }
-    
-    // Escape to clear alias
-    if (e.key === 'Escape') {
-        const aliasInput = document.getElementById('alias');
-        if (document.activeElement === aliasInput && aliasInput.value) {
-            aliasInput.value = '';
-            showToast('Signature cleared', 1500);
+        
+        document.getElementById('generateKeyBtn').addEventListener('click', showKeyModal);
+        document.getElementById('generateKeyBtnSidebar').addEventListener('click', showKeyModal);
+        
+        // Copy Current Key Button
+        document.getElementById('copyCurrentKeyBtn').addEventListener('click', function() {
+            if (inbox.currentInboxKey) {
+                const link = `${window.location.origin}/ask.html?key=${inbox.currentInboxKey}`;
+                navigator.clipboard.writeText(link).then(() => {
+                    showToast('Current inbox link copied!');
+                });
+            }
+        });
+        
+        // Close Key Modal
+        document.getElementById('closeKeyModal').addEventListener('click', function() {
+            keyModal.classList.remove('active');
+        });
+        
+        // Download Buttons
+        document.getElementById('downloadJsonBtn').addEventListener('click', () => inbox.downloadJSON());
+        document.getElementById('downloadCsvBtn').addEventListener('click', () => inbox.downloadCSV());
+        document.getElementById('downloadTxtBtn').addEventListener('click', () => inbox.downloadTXT());
+        
+        // Clear All Button
+        document.getElementById('clearAllBtn').addEventListener('click', function() {
+            if (inbox.questions.length === 0) {
+                showToast('No questions to clear');
+                return;
+            }
+            
+            // Show the clear modal
+            if (clearModal) {
+                clearModal.classList.add('active');
+            } else {
+                // Fallback if modal doesn't exist
+                if (confirm('Are you sure you want to delete all questions? This action cannot be undone.')) {
+                    inbox.clearAll();
+                }
+            }
+        });
+        
+        // Modal buttons (if modals exist)
+        if (document.getElementById('cancelClear')) {
+            document.getElementById('cancelClear').addEventListener('click', function() {
+                clearModal.classList.remove('active');
+            });
         }
-    }
-});
+        
+        if (document.getElementById('confirmClear')) {
+            document.getElementById('confirmClear').addEventListener('click', function() {
+                inbox.clearAll();
+                clearModal.classList.remove('active');
+            });
+        }
+        
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                if (clearModal) clearModal.classList.remove('active');
+                if (keyModal) keyModal.classList.remove('active');
+            }
+            
+            // Ctrl/Cmd + F to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+            
+            // Ctrl/Cmd + K to generate key
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                showKeyModal();
+            }
+        });
+        
+        // Load initial data
+        inbox.loadQuestions();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(() => inbox.loadQuestions(), 30000);
+        
+        // Show welcome message on first visit
+        window.addEventListener('load', () => {
+            const hasVisited = localStorage.getItem('has_visited_inbox');
+            if (!hasVisited && inbox.questions.length === 0) {
+                setTimeout(() => {
+                    showToast('Welcome to AskMe Inbox! Share a link to start receiving questions.', 5000);
+                }, 1000);
+                localStorage.setItem('has_visited_inbox', 'true');
+            }
+            
+            // Focus search input if it exists
+            if (searchInput) {
+                searchInput.focus();
+            }
+        });
 
-// Add the missing closing tags and final script tag
-</script>
+        // Error handling for missing elements
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.message);
+            
+            // Provide fallback for common errors
+            if (e.message.includes('Cannot read properties of null')) {
+                console.warn('Some DOM elements may not exist. Check your HTML structure.');
+                
+                // Try to load questions anyway
+                setTimeout(() => {
+                    if (typeof inbox !== 'undefined') {
+                        inbox.loadQuestions();
+                    }
+                }, 100);
+            }
+        });
+
+        // Make inbox manager accessible globally for debugging
+        window.inboxManager = inbox;
+    </script>
 </body>
 </html>
