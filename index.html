@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskMe | Premium Anonymous Q&A</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette - Premium Dark Theme */
+            --bg-primary: #0b1020;
+            --bg-secondary: #111a3a;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent-primary: #00d9ff;
+            --accent-secondary: #9d4edd;
+            --success: #00ff9d;
+            --warning: #ffaa00;
+            --danger: #ff4757;
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.2);
+            
+            /* Animations */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Noise Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating Blobs */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.2;
+            z-index: 0;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-secondary);
+            bottom: 10%;
+            left: 10%;
+            animation-delay: 7s;
+        }
+
+        .blob-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--success);
+            top: 60%;
+            right: 20%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Card */
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            transition: var(--transition-slow);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+        }
+
+        textarea::placeholder, input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.danger {
+            color: var(--danger);
+        }
+
+        /* Mood Tags */
+        .mood-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .mood-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .mood-tag:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mood-tag.selected {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-glass);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-loading .btn-text {
+            visibility: hidden;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            color: var(--success);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--success));
+            opacity: 0;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .inbox-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .inbox-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            .mood-tags {
+                gap: 0.5rem;
+            }
+            
+            .mood-tag {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .blob {
+                display: none;
+            }
+        }
+
+        /* Focus Styles */
+        :focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">AskMe</h1>
+            <p class="subtitle">Send anonymous questions with premium privacy. No accounts, no tracking, just honest conversations.</p>
+        </header>
+
+        <!-- Main Form Card -->
+        <main class="card">
+            <form id="questionForm">
+                <!-- Question Input -->
+                <div class="form-group">
+                    <label for="question">Your Question</label>
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="question" 
+                            placeholder="Ask anything... What's on your mind? 😊" 
+                            maxlength="300"
+                            required
+                        ></textarea>
+                        <div id="charCounter" class="char-counter">0/300</div>
+                    </div>
+                </div>
+
+                <!-- Alias Input -->
+                <div class="form-group">
+                    <label for="alias">
+                        Signature (Optional)
+                        <span style="color: var(--text-muted); font-weight: normal;">— Leave empty to stay anonymous</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="alias" 
+                        placeholder="Your alias or nickname"
+                        maxlength="30"
+                    >
+                </div>
+
+                <!-- Mood Selection -->
+                <div class="form-group">
+                    <label>Mood</label>
+                    <div class="mood-tags" id="moodTags">
+                        <div class="mood-tag" data-mood="curious">🤔 Curious</div>
+                        <div class="mood-tag" data-mood="confess">😶 Confess</div>
+                        <div class="mood-tag" data-mood="funny">😂 Funny</div>
+                        <div class="mood-tag" data-mood="advice">💡 Advice</div>
+                        <div class="mood-tag selected" data-mood="random">🎲 Random</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">
+                            <span class="material-symbols-outlined">send</span>
+                            Send Question
+                        </span>
+                    </button>
+                    
+                    <a href="inbox.html" class="btn btn-secondary" id="inboxBtn">
+                        <span class="material-symbols-outlined">inbox</span>
+                        View Inbox
+                    </a>
+                    
+                    <button type="button" class="btn btn-secondary" id="copyLinkBtn" style="display: none;">
+                        <span class="material-symbols-outlined">link</span>
+                        Copy Inbox Link
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Your data stays on this device • No server storage • End-to-end private</p>
+            <a href="inbox.html" class="inbox-link">
+                <span class="material-symbols-outlined">arrow_forward</span>
+                Go to your inbox
+            </a>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="material-symbols-outlined toast-icon">check_circle</span>
+        <span id="toastMessage">Question sent successfully!</span>
+    </div>
+
+    <script>
+        // Utility Functions
+        function escapeHTML(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function getQueryParam(key) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(key);
+        }
+
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Confetti Animation
+        function createConfetti() {
+            const colors = ['#00d9ff', '#9d4edd', '#00ff9d', '#ffaa00'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 10 + 5;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 3 + 2;
+                
+                confetti.style.cssText = `
+                    background: ${color};
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${left}vw;
+                    top: -20px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                    opacity: 0;
+                    animation: confettiFall ${animationDuration}s ease-out forwards;
+                `;
+                
+                document.body.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => confetti.remove(), animationDuration * 1000);
+            }
+            
+            // Add animation keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes confettiFall {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Character Counter
+        const questionInput = document.getElementById('question');
+        const charCounter = document.getElementById('charCounter');
+        
+        questionInput.addEventListener('input', function() {
+    const length = this.value.length;
+    charCounter.textContent = `${length}/300`;
+    
+    // Update color based on length
+    if (length > 250) {
+        charCounter.className = 'char-counter warning';
+    } else if (length >= 300) {
+        charCounter.className = 'char-counter danger';
+    } else {
+        charCounter.className = 'char-counter';
+    }
+});
+
+// Mood Tag Selection
+const moodTags = document.querySelectorAll('.mood-tag');
+let selectedMood = 'random';
+
+moodTags.forEach(tag => {
+    tag.addEventListener('click', function() {
+        // Remove selected class from all tags
+        moodTags.forEach(t => t.classList.remove('selected'));
+        // Add selected class to clicked tag
+        this.classList.add('selected');
+        selectedMood = this.dataset.mood;
+    });
+});
+
+// Spam Filter
+function containsSpam(text) {
+    // Block URLs
+    const urlRegex = /https?:\/\/\S+/gi;
+    if (urlRegex.test(text)) {
+        return 'Links are not allowed. Please remove URLs.';
+    }
+    
+    // Block too many emojis (>20)
+    const emojiRegex = /[\p{Emoji}]/gu;
+    const emojiCount = (text.match(emojiRegex) || []).length;
+    if (emojiCount > 20) {
+        return 'Too many emojis detected. Please limit to 20 emojis.';
+    }
+    
+    // Block common spam phrases
+    const spamPhrases = [
+        'buy now', 'click here', 'free money', 'make money',
+        'earn cash', 'work from home', 'get rich', 'investment'
+    ];
+    
+    const lowerText = text.toLowerCase();
+    for (const phrase of spamPhrases) {
+        if (lowerText.includes(phrase)) {
+            return 'Message contains suspicious content.';
+        }
+    }
+    
+    return null;
+}
+
+// Get simplified user agent
+function getUserAgentHint() {
+    const ua = navigator.userAgent;
+    if (ua.includes('Mobile')) return 'Mobile';
+    if (ua.includes('Tablet')) return 'Tablet';
+    return 'Desktop';
+}
+
+// Form Submission
+const form = document.getElementById('questionForm');
+const submitBtn = document.getElementById('submitBtn');
+const copyLinkBtn = document.getElementById('copyLinkBtn');
+const inboxKey = getQueryParam('key');
+
+// Show copy link button if key exists
+if (inboxKey) {
+    copyLinkBtn.style.display = 'inline-flex';
+    copyLinkBtn.addEventListener('click', function() {
+        const link = `${window.location.origin}${window.location.pathname}?key=${inboxKey}`;
+        navigator.clipboard.writeText(link).then(() => {
+            showToast('Inbox link copied to clipboard!');
+        });
+    });
+}
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const question = questionInput.value.trim();
+    const alias = document.getElementById('alias').value.trim();
+    
+    // Validation
+    if (!question) {
+        showToast('Please enter a question', 2000);
+        questionInput.focus();
+        return;
+    }
+    
+    if (question.length < 5) {
+        showToast('Question must be at least 5 characters', 2000);
+        questionInput.focus();
+        return;
+    }
+    
+    // Spam check
+    const spamError = containsSpam(question);
+    if (spamError) {
+        showToast(spamError, 3000);
+        return;
+    }
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
+    
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Create question object
+    const questionObj = {
+        id: generateId(),
+        key: inboxKey || null,
+        question: escapeHTML(question),
+        alias: alias ? escapeHTML(alias) : null,
+        createdAt: new Date().toISOString(),
+        userAgentHint: getUserAgentHint(),
+        moodTag: selectedMood
+    };
+    
+    // Save to localStorage
+    try {
+        const existingQuestions = JSON.parse(localStorage.getItem('anonymous_questions') || '[]');
+        existingQuestions.push(questionObj);
+        localStorage.setItem('anonymous_questions', JSON.stringify(existingQuestions));
+        
+        // Success animation
+        createConfetti();
+        showToast('Question sent successfully! 🎉');
+        
+        // Reset form
+        form.reset();
+        questionInput.dispatchEvent(new Event('input'));
+        
+        // Reset mood selection
+        moodTags.forEach(t => t.classList.remove('selected'));
+        document.querySelector('.mood-tag[data-mood="random"]').classList.add('selected');
+        selectedMood = 'random';
+        
+    } catch (error) {
+        showToast('Error saving question. Please try again.', 3000);
+        console.error('Storage error:', error);
+    }
+    
+    // Reset button state
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('btn-loading');
+});
+
+// Auto-focus textarea on page load
+window.addEventListener('load', () => {
+    questionInput.focus();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Ctrl/Cmd + Enter to submit
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        if (document.activeElement === questionInput) {
+            form.dispatchEvent(new Event('submit'));
+        }
+    }
+    
+    // Escape to clear alias
+    if (e.key === 'Escape') {
+        const aliasInput = document.getElementById('alias');
+        if (document.activeElement === aliasInput && aliasInput.value) {
+            aliasInput.value = '';
+            showToast('Signature cleared', 1500);
+        }
+    }
+});
+
+// Add the missing closing tags and final script tag
+</script>
+</body>
+</html>
